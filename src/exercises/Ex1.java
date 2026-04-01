@@ -32,6 +32,9 @@ public class Ex1 implements Exercise {
     public void run(Scanner sc) {
         System.out.println("--- Estudo de caso 1 ---\n");
 
+
+    /* 
+
     Estoque estoque = new Estoque();
     Produto p1 = new Produto("Steam Frame", 12000.00, 15);
     Produto p2 = new Produto("Container", 200000.00, 20);
@@ -51,5 +54,9 @@ public class Ex1 implements Exercise {
 
     System.out.println("\n--- Situação Final do Estoque ---");
     estoque.gerarRelatorio();
+
+    */
     }
+
+    
 }

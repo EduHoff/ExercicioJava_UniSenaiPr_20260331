@@ -15,24 +15,21 @@ public class ContaBancaria {
 
     public ContaBancaria(){}
 
-    public void depositar(double valor){
-        if(valor <= 0){
-            System.out.println("Valor do depósito precisa ser maior que zero!");
-        }else{
-            saldo += valor;
-            System.out.println("Depósito de R$"+valor+" realizado com sucesso!");
+    public void depositar(double valor) {
+        if (valor <= 0) {
+            throw new IllegalArgumentException("O valor do depósito deve ser positivo.");
         }
+        this.saldo += valor;
     }
 
-    public void sacar(double valor){
-        if(valor <= 0){
-            System.out.println("Valor do saque precisa ser maior que zero!");
-        }else if(valor > saldo){
-            System.out.println("Valor do saque não pode utrapssar o saldo da conta!");
-        }else{
-            saldo -= valor;
-            System.out.println("Saque realizado com sucesso!");
+    public void sacar(double valor) {
+        if (valor <= 0) {
+            throw new IllegalArgumentException("O valor do saque deve ser positivo.");
         }
+        if (valor > saldo) {
+            throw new IllegalStateException("Saldo insuficiente para realizar o saque.");
+        }
+        this.saldo -= valor;
     }
 
     @Override

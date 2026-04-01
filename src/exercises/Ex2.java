@@ -28,6 +28,9 @@ public class Ex2 implements Exercise {
     public void run(Scanner sc) {
         System.out.println("--- Estudo de caso 2 ---\n");
 
+
+        /* 
+
         Banco banco = new Banco();
 
         banco.cadastrarCliente("Eduardo", 10000.0);
@@ -48,5 +51,7 @@ public class Ex2 implements Exercise {
 
         System.out.println("\n--- Estado Final do Banco ---");
         banco.listarContas();
+
+        */
     }
 }

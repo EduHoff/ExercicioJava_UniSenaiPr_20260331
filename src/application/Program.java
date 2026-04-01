@@ -19,13 +19,14 @@ public class Program {
             try{
 
                 System.out.print("""
-                ============================================
-                            MENU DE EXERCÍCIOS
-                ============================================
+                ================================================
+                                MENU DE EXERCÍCIOS
+                ================================================
                 1 - Estudo de Caso 1: Loja de Conveniência
                 2 - Estudo de Caso 2: Contas Bancárias
+                3 - Estudo de Caso 3: Sistema de Notas e Alunos
                 0 - Sair
-                ===========================================
+                ================================================
                 """);
 
                 System.out.print("||");

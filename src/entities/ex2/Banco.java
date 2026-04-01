@@ -2,10 +2,11 @@ package entities.ex2;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 public class Banco {
 
-    List<ContaBancaria> lista_contas = new ArrayList<>();
+    private List<ContaBancaria> lista_contas = new ArrayList<>();
     private static int contador_geral = 1001;
 
     private ContaBancaria buscarObjetoConta(int num_conta) {
@@ -14,48 +15,43 @@ public class Banco {
                 return c;
             }
         }
-        return null;
+
+        throw new NoSuchElementException("Erro: Conta número " + num_conta + " não encontrada.");
     }
 
-    public void cadastrarCliente(String titular, double saldo) {
+    public int cadastrarCliente(String titular, double saldo) {
+        if (titular == null || titular.trim().isEmpty()) {
+            throw new IllegalArgumentException("O nome do titular é obrigatório.");
+        }
+        
         ContaBancaria conta = new ContaBancaria(titular, contador_geral, saldo);
         lista_contas.add(conta);
-        System.out.println("Conta criada! Número: " + contador_geral);
+        
+        int numeroGerado = contador_geral;
         contador_geral++;
+        
+        return numeroGerado;
     }
 
     public void depositarConta(int num_conta, double valor) {
-        ContaBancaria conta = buscarObjetoConta(num_conta);
-        if (conta == null) {
-            System.out.println("Erro: Número de conta " + num_conta + " não encontrado!");
-            return;
-        }
-        System.out.println("=== DEPÓSITO CONTA ===");
+        ContaBancaria conta = buscarObjetoConta(num_conta); 
         conta.depositar(valor);
     }
 
     public void sacarConta(int num_conta, double valor) {
         ContaBancaria conta = buscarObjetoConta(num_conta);
-        if (conta == null) {
-            System.out.println("Erro: Número de conta " + num_conta + " não encontrado!");
-            return;
-        }
-        System.out.println("=== SAQUE CONTA ===");
         conta.sacar(valor);
     }
 
-    public void consultarConta(int num_conta) {
-        ContaBancaria conta = buscarObjetoConta(num_conta);
-        if (conta == null) {
-            System.out.println("Erro: Número de conta " + num_conta + " não encontrado!");
-            return;
-        }
-        System.out.println("=== CONSULTA CONTA ===");
-        System.out.println(conta);
+    public ContaBancaria consultarConta(int num_conta) {
+        return buscarObjetoConta(num_conta);
     }
 
     public void listarContas() {
         System.out.println("=== LISTA DAS CONTAS ===");
+        if (lista_contas.isEmpty()) {
+            System.out.println("Nenhuma conta cadastrada.");
+        }
         for (ContaBancaria c : lista_contas) {
             System.out.println(c);
         }

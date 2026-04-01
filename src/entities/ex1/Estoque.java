@@ -7,57 +7,51 @@ public class Estoque {
 
     private List<Produto> estoque = new ArrayList<>();
 
-    public void adicionarProduto(Produto p){
-        if(!estoque.contains(p)){
+    public void adicionarProduto(Produto p) {
+        if (!estoque.contains(p)) {
             estoque.add(p);
-        }else{
-            System.out.println("Produto já registrado!");
-        }     
+        }
     }
 
-    public void removerProduto(Produto p){
+    public void removerProduto(Produto p) {
         estoque.remove(p);
     }
 
-    public void removerProduto(int index){
+    public void removerProduto(int index) {
+        validarIndice(index);
         estoque.remove(index);
     }
 
-
-    public void venderProduto(int index, int qtd){
-
-        if (index < 0 || index >= estoque.size()) {
-            System.out.println("Erro: Código de produto inválido!");
-            return;
-        }
+    public void venderProduto(int index, int qtd) {
+        validarIndice(index);
 
         if (qtd <= 0) {
-            System.out.println("Quantidade precisa ser maior que zero!");
-            return;
+            throw new IllegalArgumentException("A quantidade deve ser maior que zero.");
         }
 
-        if(estoque.get(index).getQtd_estoque() < qtd){
-            System.out.println("Não há estoque o suficiente para a venda de " + qtd + " " + estoque.get(index).getNome());
-        }else{
-            System.out.println("Venda realizada com sucesso de " + qtd + " " + estoque.get(index).getNome() + "!");
-            estoque.get(index).setQtd_estoque(estoque.get(index).getQtd_estoque() - qtd);
+        Produto produto = estoque.get(index);
+
+        if (produto.getQtd_estoque() < qtd) {
+            throw new IllegalStateException("Saldo insuficiente: " + produto.getNome() + " possui apenas " + produto.getQtd_estoque() + " unidades.");
         }
+
+        produto.setQtd_estoque(produto.getQtd_estoque() - qtd);
     }
 
-    public void atualizarPreco(int index, double preco){
+    public void atualizarPreco(int index, double preco) {
+        validarIndice(index);
 
-        if (index < 0 || index >= estoque.size()) {
-            System.out.println("Erro: Código de produto inválido!");
-            return;
+        if (preco <= 0) {
+            throw new IllegalArgumentException("O preço deve ser maior que zero.");
         }
 
-        if(preco <= 0){
-            System.out.println("Preço precisa ser maior que zero!");
-            return;
-        }
-
-        System.out.println("Preço do produto " + estoque.get(index).getNome() + " foi atualizado de R$" + estoque.get(index).getPreco() + " para R$" + preco);
         estoque.get(index).setPreco(preco);
+    }
+
+    private void validarIndice(int index) {
+        if (index < 0 || index >= estoque.size()) {
+            throw new IndexOutOfBoundsException("Erro: Código de produto " + index + " é inválido!");
+        }
     }
 
     public void gerarRelatorio() {
@@ -66,5 +60,4 @@ public class Estoque {
             System.out.println("Cód: " + i + " | " + estoque.get(i).toString());
         }
     }
-
 }
