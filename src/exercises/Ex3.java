@@ -27,8 +27,8 @@ média necessária e quais precisam de recuperação ou retomada de estudos.
     @Override
     public void run(Scanner sc) {
         System.out.println("--- Estudo de caso 3 ---\n");
-
         
+
 
     }
 

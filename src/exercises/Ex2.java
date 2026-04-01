@@ -1,8 +1,10 @@
 package exercises;
 
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 import entities.ex2.Banco;
+import utils.ConsoleUtils;
 
 /* 
 Você precisa criar um programa em Java para representar contas bancárias de
@@ -28,30 +30,101 @@ public class Ex2 implements Exercise {
     public void run(Scanner sc) {
         System.out.println("--- Estudo de caso 2 ---\n");
 
-
-        /* 
-
         Banco banco = new Banco();
 
-        banco.cadastrarCliente("Eduardo", 10000.0);
-        banco.cadastrarCliente("Flávio", 1000000.0);
-        banco.cadastrarCliente("Madu", 300000.0);
-        
-        banco.listarContas();
+        while (true) {
+            try{
 
-        System.out.println("\n--- Testando Operações ---");
-        banco.depositarConta(1001, 500.0);
+                System.out.print("""
+                ================================================
+                                    BANCO
+                ================================================
+                1 - Cadastrar
+                2 - Depositar
+                3 - Sacar
+                4 - Consultar
+                5 - Listar
+                0 - Sair
+                ================================================
+                """);
 
-        banco.sacarConta(1003, 50.0); 
-        banco.sacarConta(1001, 20000.0);
+                System.out.print("||");
+                int opcao  = sc.nextInt();
+                sc.nextLine();
 
-        banco.consultarConta(1002);
-        banco.consultarConta(9999);
+                if (opcao  == 0) {
+                    ConsoleUtils.clear();
+                    return;
+                }
 
 
-        System.out.println("\n--- Estado Final do Banco ---");
-        banco.listarContas();
+                switch (opcao) {
+                    case 1 -> {
+                        ConsoleUtils.clear();
+                        System.out.print("Nome do titular: ");
+                        String nome = sc.nextLine();
+                        
+                        System.out.print("Saldo inicial: ");
+                        double saldo = sc.nextDouble();
+                        sc.nextLine();
 
-        */
+                        int num = banco.cadastrarCliente(nome, saldo);
+                        System.out.println("Sucesso! Conta criada com número: " + num);
+                    }
+                    case 2 -> {
+                        ConsoleUtils.clear();
+                        System.out.print("Número da conta: ");
+                        int num = sc.nextInt();
+                        sc.nextLine();
+
+                        System.out.print("Valor do depósito: ");
+                        double valor = sc.nextDouble();
+                        sc.nextLine();
+
+                        banco.depositarConta(num, valor);
+                        System.out.println("Depósito realizado com sucesso!");
+                    }
+                    case 3 -> {
+                        ConsoleUtils.clear();
+                        System.out.print("Número da conta: ");
+                        int num = sc.nextInt();
+                        sc.nextLine();
+
+                        System.out.print("Valor do saque: ");
+                        double valor = sc.nextDouble();
+                        sc.nextLine();
+
+                        banco.sacarConta(num, valor);
+                        System.out.println("Saque realizado com sucesso!");
+                    }
+                    case 4 -> {
+                        ConsoleUtils.clear();
+                        System.out.print("Número da conta para consulta: ");
+                        int num = sc.nextInt();
+                        sc.nextLine();
+                        
+                        System.out.println("\nDados da Conta:");
+                        System.out.println(banco.consultarConta(num));
+                    }
+                    case 5 -> {
+                        ConsoleUtils.clear();
+                        banco.listarContas();
+                    }
+                    default -> {
+                        ConsoleUtils.clear();
+                        System.out.println("Opção inválida! Tente novamente.");
+                    }
+                }
+
+            
+            }catch(InputMismatchException e){
+                ConsoleUtils.clear();
+                System.out.println("Digite apenas números inteiros!\n");
+                sc.nextLine();
+            }catch(Exception e){
+                ConsoleUtils.clear();
+                e.printStackTrace();
+            } 
+        }
     }
 }
