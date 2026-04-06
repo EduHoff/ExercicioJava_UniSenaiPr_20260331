@@ -1,9 +1,11 @@
 package exercises;
 
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 import entities.ex1.Estoque;
 import entities.ex1.Produto;
+import utils.ConsoleUtils;
 
 /* 
 Desenvolva um programa em Java para gerenciar os produtos de uma loja de
@@ -30,33 +32,100 @@ public class Ex1 implements Exercise {
 
     @Override
     public void run(Scanner sc) {
-        System.out.println("--- Estudo de caso 1 ---\n");
 
+        Estoque estoque = new Estoque();
 
-    /* 
+        while (true) {
+            try {
+                System.out.println("""
+                ================================================
+                            GERENCIADOR DE ESTOQUE
+                ================================================
+                1 - Adicionar produto
+                2 - Remover produto
+                3 - Vender produto
+                4 - Atualizar preço
+                5 - Gerar relatório
+                0 - Sair
+                ================================================
+                """);
 
-    Estoque estoque = new Estoque();
-    Produto p1 = new Produto("Steam Frame", 12000.00, 15);
-    Produto p2 = new Produto("Container", 200000.00, 20);
-    Produto p3 = new Produto("Lampada", 20.00, 100);
-    estoque.adicionarProduto(p1);
-    estoque.adicionarProduto(p2);
-    estoque.adicionarProduto(p3);
+                System.out.print("||");
+                int opcao = sc.nextInt();
+                sc.nextLine();
 
-    System.out.println("\n--- Realizando Vendas ---");
-    estoque.venderProduto(2, 30); 
-    estoque.venderProduto(1, 100); 
-    estoque.venderProduto(99, 1);
+                if (opcao == 0) {
+                    return;
+                }
 
-    System.out.println("\n--- Aplicando Reajustes ---");
-    estoque.atualizarPreco(0, 10500.00); 
-    estoque.atualizarPreco(2, -5.00); 
+                switch (opcao) {
+                    case 1 -> {
+                        ConsoleUtils.clear();
+                        System.out.print("Nome do produto: ");
+                        String nome = sc.nextLine();
+                        
+                        System.out.print("Preço: ");
+                        double preco = sc.nextDouble();
+                        
+                        System.out.print("Quantidade inicial: ");
+                        int qtd = sc.nextInt();
+                        sc.nextLine();
 
-    System.out.println("\n--- Situação Final do Estoque ---");
-    estoque.gerarRelatorio();
+                        Produto p = new Produto(nome, preco, qtd);
+                        estoque.adicionarProduto(p);
+                        System.out.println("Produto adicionado com sucesso!");
+                    }
+                    case 2 -> {
+                        ConsoleUtils.clear();
+                        System.out.print("\nDigite o código do produto para remover: ");
+                        int index = sc.nextInt();
+                        sc.nextLine();
 
-    */
+                        estoque.removerProduto(index);
+                        System.out.println("Produto removido!");
+                    }
+                    case 3 -> {
+                        ConsoleUtils.clear();
+                        System.out.print("\nDigite o código do produto: ");
+                        int index = sc.nextInt();
+                        
+                        System.out.print("Quantidade da venda: ");
+                        int qtd = sc.nextInt();
+                        sc.nextLine();
+
+                        estoque.venderProduto(index, qtd);
+                        System.out.println("Venda realizada!");
+                    }
+                    case 4 -> {
+                        ConsoleUtils.clear();
+                        System.out.print("\nDigite o código do produto para atualizar preço: ");
+                        int index = sc.nextInt();
+                        
+                        System.out.print("Novo preço: ");
+                        double novoPreco = sc.nextDouble();
+                        sc.nextLine();
+
+                        estoque.atualizarPreco(index, novoPreco);
+                        System.out.println("Preço atualizado!");
+                    }
+                    case 5 -> {
+                        ConsoleUtils.clear();
+                        estoque.gerarRelatorio();
+                    }
+                    default -> {
+                        ConsoleUtils.clear();
+                        System.out.println("Opção inválida! Tente novamente.");
+                    }
+                }
+
+            } catch (InputMismatchException e) {
+                ConsoleUtils.clear();
+                System.out.println("Digite apenas números inteiros!\n");
+                sc.nextLine();
+            } catch (Exception e) {
+                ConsoleUtils.clear();
+                e.printStackTrace(); 
+            }
+        }
     }
-
-    
 }
