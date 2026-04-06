@@ -5,6 +5,7 @@ import java.util.ArrayList;
 public class Disciplina {
 
     private String nome;
+    
     private ArrayList<Double> notas = new ArrayList<>();
 
     public Disciplina(String nome) {
@@ -29,5 +30,9 @@ public class Disciplina {
 
     public String getNome() {
         return nome;
+    }
+
+    public ArrayList<Double> getNotas() {
+        return notas;
     }
 }
